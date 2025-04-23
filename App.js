@@ -1,20 +1,39 @@
-import React from 'react';
+import { React } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import Home from './Home';
-import CadastroScreen from './CadastroScreen';
-import Editar from './Editar'
+import Home from './Components/Home.js';
+import CadastroProduto from './Components/CadastroProduto.js';
+import EditarProduto from './Components/EditarProduto.js';
+import DashboardProduto from './Components/DashboardProduto.js';
 
 const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
-export default function App({navigation}) {
+function TabNavigator() {
+  return (
+    <Tab.Navigator initialRouteName="Home"
+      screenOptions={{
+        tabBarStyle: {
+          height: 80,
+          paddingBottom: 10,
+          paddingTop: 10,
+        }, headerShown: false,
+      }}>
+      <Tab.Screen name="Home" component={Home} />
+      <Tab.Screen name="Cadastro" component={CadastroProduto} />
+      <Tab.Screen name="Relatório" component={DashboardProduto} />
+    </Tab.Navigator>
+  );
+}
+
+export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name='Home' component={Home} />
-        <Stack.Screen name='Cadastro' component={CadastroScreen} />
-        <Stack.Screen name='Editar' component={Editar} />
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={TabNavigator} options={{ headerShown: false }} />
+        <Stack.Screen name="EditarProduto" component={EditarProduto} />
       </Stack.Navigator>
     </NavigationContainer>
   );
