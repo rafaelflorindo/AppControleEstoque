@@ -3,10 +3,19 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
+
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
+
 import Home from './Components/Home.js';
-import CadastroProduto from './Components/CadastroProduto.js';
-import EditarProduto from './Components/EditarProduto.js';
-import DashboardProduto from './Components/DashboardProduto.js';
+import CadastroProduto from './Components/Produto/CadastroProduto.js';
+import EditarProduto from './Components/Produto/EditarProduto.js';
+import DashboardProduto from './Components/Produto/DashboardProduto.js';
+
+import CadastroUsuario from './Components/Usuario/CadastroUsuario.js';
+
+import Login from './Components/Login'; // novo componente
+
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -21,9 +30,42 @@ function TabNavigator() {
           paddingTop: 10,
         }, headerShown: false,
       }}>
-      <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Cadastro" component={CadastroProduto} />
-      <Tab.Screen name="Relatório" component={DashboardProduto} />
+      <Tab.Screen
+        name="Home"
+        component={Home}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="home" color={color} size={size || 24} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Produto"
+        component={CadastroProduto}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="add-shopping-cart" color={color} size={size || 24} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Usuario"
+        component={CadastroUsuario}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="person-add" color={color} size={size || 24} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Relatório"
+        component={DashboardProduto}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="bar-chart" color={color} size={size || 24} />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 }
@@ -31,9 +73,10 @@ function TabNavigator() {
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Home" component={TabNavigator} options={{ headerShown: false }} />
-        <Stack.Screen name="EditarProduto" component={EditarProduto} />
+        <Stack.Screen name="EditarProduto" component={EditarProduto}  options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
