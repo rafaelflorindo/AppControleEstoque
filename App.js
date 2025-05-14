@@ -14,6 +14,9 @@ import DashboardProduto from './Components/Produto/DashboardProduto.js';
 
 import CadastroUsuario from './Components/Usuario/CadastroUsuario.js';
 
+import EditarUsuario from './Components/Usuario/EditarUsuarios.js';
+import ListarUsuario from './Components/Usuario/ListarUsuario.js';
+
 import Login from './Components/Login'; // novo componente
 
 
@@ -50,7 +53,7 @@ function TabNavigator() {
       />
       <Tab.Screen
         name="Usuario"
-        component={CadastroUsuario}
+        component={ListarUsuario}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Icon name="person-add" color={color} size={size || 24} />
@@ -77,6 +80,8 @@ export default function App() {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Home" component={TabNavigator} options={{ headerShown: false }} />
         <Stack.Screen name="EditarProduto" component={EditarProduto}  options={{ headerShown: false }} />
+        <Stack.Screen name="ListarUsuario" component={ListarUsuario}  options={{ headerShown: false }} />
+        <Stack.Screen name="EditarUsuario" component={EditarUsuario}  options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

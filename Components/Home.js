@@ -30,7 +30,7 @@ export default function App({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>App Controle de Estoque</Text>
+      <Text style={styles.title}>Produtos Cadastrados no sistema</Text>
 
       <FlatList
         style={styles.containerFlatlist}

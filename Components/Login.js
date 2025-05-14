@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image } from "react-native";
 import api from "../services/api"; // Ajuste o caminho se necessário
 
 const Login = ({ navigation }) => {
@@ -35,30 +35,40 @@ const Login = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
-
-      <Text style={styles.label}>E-mail:</Text>
-      <TextInput
-        style={styles.input}
-        value={email}
-        onChangeText={setEmail}
-        placeholder="Digite seu e-mail"
-        keyboardType="email-address"
-        autoCapitalize="none"
+      <View style={styles.imglogin}>
+      <Image 
+        source={require('../assets/estoque.png')} 
+        style={{ width: 100, height: 100 }} 
       />
+      </View>
+      <View style={styles.login}>
+        <Text style={styles.title}>Faça o Login</Text>
+        <Text style={styles.descricao}>Para acessar utilize o seu e-mail de cadastro e digite a sua senha.</Text>
+        <Text style={styles.label}>E-mail:</Text>
+        <TextInput
+          style={styles.input}
+          value={email}
+          onChangeText={setEmail}
+          placeholder="Digite seu e-mail"
+          keyboardType="email-address"
+          autoCapitalize="none"
+        />
 
-      <Text style={styles.label}>Senha:</Text>
-      <TextInput
-        style={styles.input}
-        value={senha}
-        onChangeText={setSenha}
-        placeholder="Digite sua senha"
-        secureTextEntry
-      />
-
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Entrar</Text>
-      </TouchableOpacity>
+        <Text style={styles.label}>Senha:</Text>
+        <TextInput
+          style={styles.input}
+          value={senha}
+          onChangeText={setSenha}
+          placeholder="Digite sua senha"
+          secureTextEntry
+        />
+       <View style={styles.viewRecuperarSenha}>
+          <Text style={styles.textRecuperarSenha}>Recuperar Senha</Text>
+        </View>
+        <TouchableOpacity style={styles.button} onPress={handleLogin}>
+          <Text style={styles.buttonText}>Entrar</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -66,9 +76,29 @@ const Login = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: 0,
+    alignItems: 'center',
     justifyContent: "center",
-    backgroundColor: "#f5f5f5",
+    backgroundColor: "#68a66d",
+  },
+  imglogin:{
+    flex: 1,
+    width: '100%', 
+    padding: 20,
+    alignItems: 'center',
+    justifyContent: "center",
+    backgroundColor: "##68a66d",
+  },
+  login:{
+    flex: 1,
+    padding: 20,
+    width: '100%',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
+    justifyContent: "center",
+    backgroundColor: "#fff",
   },
   title: {
     fontSize: 24,
@@ -76,6 +106,12 @@ const styles = StyleSheet.create({
     marginBottom: 25,
     color: "#222",
     textAlign: "center",
+  },
+    descricao:{
+    fontSize: 16,
+    fontWeight: "600",
+    marginBottom: 20,
+    color: "#999",
   },
   label: {
     fontSize: 16,
@@ -104,6 +140,17 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
+  viewRecuperarSenha: {
+    justifyContent: 'center', 
+    alignItems: 'flex-end', 
+  },
+  recuperarSenha: {
+    fontSize: 12,
+    fontWeight: "600",
+    marginBottom: 6,
+    color: "#444",
+    textAlign: 'left', 
+  }
 });
 
 export default Login;
