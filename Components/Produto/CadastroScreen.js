@@ -2,79 +2,63 @@ import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from "react-native";
 
 import api from "../../api"; // Arquivo com a configuração do Axios
+import ListarProdutos from "./ListarProdutos";
 
-const CadastroUsuario = ({navigation}) => {
+const CadastroScreen = ({navigation}) => {
   const [nome, setNome] = useState("");
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
-  const [telefone, setTelefone] = useState('');
-  const [reSenha, setReSenha] = useState("");
+  const [preco, setPreco] = useState("");
+  const [quantidade, setQuantidade] = useState("");
   
   const handleSubmit = async () => {
-    if (!nome || !email || !senha || !reSenha || !telefone) {
+    if (!nome || !preco || !quantidade) {
       Alert.alert("Erro", "Preencha todos os campos!");
       return;
     }
-
-    if(senha !== reSenha){
-      Alert.alert("Erro", "Campos de senha são diferentes e devem ser iguais!");
-      return;
-    }
-
     try {
-      const response = await api.post("/usuarios", {nome, email, senha, telefone});
-
-      Alert.alert("Sucesso", "Usuário cadastrado com sucesso!");
-      console.log("Usuário cadastrado com sucesso!");
+      const response = await api.post("/produtos", {
+        nome,
+        preco: parseFloat(preco), // Convertendo para número
+        quantidade: parseInt(quantidade, 10), // Convertendo para número inteiro
+      });
+      Alert.alert("Sucesso", "Produto cadastrado com sucesso!");
+      console.log("Produto cadastrado com sucesso!");
       setNome("");
-      setEmail("");
-      setSenha("");
-      setReSenha("");
-      navigation.navigate('ListarUsuarios');
+      setPreco("");
+      setQuantidade("");
+     
+      navigation.navigate('ListarProdutos');
+     
+
     } catch (error) {
       console.error("Erro ao cadastrar:", error);
-      Alert.alert("Erro", "Não foi possível cadastrar o Usuario.");
+      Alert.alert("Erro", "Não foi possível cadastrar o produto.");
     }
   };
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Cadastro de Usuario</Text>
-      <Text style={styles.label}>Nome:</Text>
+      <Text style={styles.title}>Cadastro de Produto</Text>
+      <Text style={styles.label}>Nome do Produto:</Text>
       <TextInput
         style={styles.input}
         value={nome}
         onChangeText={setNome}
         placeholder="Digite o nome"
       />
-      <Text style={styles.label}>Telefone:</Text>
+      <Text style={styles.label}>Preço:</Text>
       <TextInput
         style={styles.input}
-        value={telefone}
-        onChangeText={setTelefone}
-        placeholder="(DDD) 9xxxx-xxxx"
+        value={preco}
+        onChangeText={setPreco}
+        placeholder="Digite o preço"
+        keyboardType="numeric"
       />
-      <Text style={styles.label}>E-mail:</Text>
+      <Text style={styles.label}>Quantidade:</Text>
       <TextInput
         style={styles.input}
-        value={email}
-        onChangeText={setEmail}
-        placeholder="Seu email you@exemplo.com"
-      />
-      <Text style={styles.label}>Senha:</Text>
-      <TextInput
-        style={styles.input}
-        value={senha}
-        onChangeText={setSenha}
-        placeholder="Digite a senha"
-        secureTextEntry={true}
-      />
-      <Text style={styles.label}>Re-Senha:</Text>
-      <TextInput
-        style={styles.input}
-        value={reSenha}
-        onChangeText={setReSenha}
-        placeholder="Digite novamente a sua senha"
-        secureTextEntry={true}
+        value={quantidade}
+        onChangeText={setQuantidade}
+        placeholder="Digite a quantidade"
+        keyboardType="numeric"
       />
       <TouchableOpacity style={styles.button} onPress={handleSubmit}>
         <Text style={styles.buttonText}>Cadastrar</Text>
@@ -165,4 +149,4 @@ const styles = StyleSheet.create({
   }, 
 
 }); 
-export default CadastroUsuario;
+export default CadastroScreen;

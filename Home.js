@@ -1,11 +1,22 @@
 import { React, useState, useEffect } from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Alert } from 'react-native';
+import { useRoute } from '@react-navigation/native';
 import api from './api';
 
-export default function Home({navigation}) {
-  const [produtos, setProdutos] = useState([]);
+export default function Home({route, navigation}) {
+    const [produtos, setProdutos] = useState([]);
 
-  const fetchProdutos = async () => {
+    const usuario = route.params.usuario;
+    const teste = route.params.teste;
+    
+    console.log("Rotas = ", usuario, teste)
+    
+    const fetchProdutos = async () => {
+    
+      const jsonValue = await AsyncStorage.getItem('my-key');
+      console.log(JSON.parse(jsonValue));
+
+    return jsonValue != null ? JSON.parse(jsonValue) : null;
     try {
       const response = await api.get('/produtos');
       setProdutos(response.data);
@@ -33,7 +44,7 @@ export default function Home({navigation}) {
     <View style={styles.container}>
 
       <Text style={styles.title}>App Controle de Estoque</Text>
-      
+ 
       <TouchableOpacity style={styles.button} onPress={()=>navigation.navigate('Cadastro')}>
         <Text style={styles.buttonText}>Cadastrar</Text>
       </TouchableOpacity>

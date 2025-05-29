@@ -1,74 +1,67 @@
-import { React } from 'react';
+//https://ionic.io/ionicons
+import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Icon, { Ionicons } from 'react-native-vector-icons/Ionicons';
 
+import Home from './Home';
 
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import Cadastro from './Components/Produto/CadastroScreen';
+import Editar from './Components/Produto/Editar';
+import Relatorio from './Components/Produto/Relatorio';
+import ListarProdutos from './Components/Produto/ListarProdutos';
 
+import CadastroUsuario from './Components/Usuario/CadastroUsuario';
+import EditarUsuario from './Components/Usuario/EditarUsuario'
+import Login from './Components/Usuario/Login';
 
-import Home from './Components/Home.js';
-import CadastroProduto from './Components/Produto/CadastroProduto.js';
-import EditarProduto from './Components/Produto/EditarProduto.js';
-import DashboardProduto from './Components/Produto/DashboardProduto.js';
-
-import CadastroUsuario from './Components/Usuario/CadastroUsuario.js';
-
-import EditarUsuario from './Components/Usuario/EditarUsuarios.js';
-import ListarUsuario from './Components/Usuario/ListarUsuario.js';
-
-import Login from './Components/Login'; // novo componente
-
+import ListarUsuarios from './Components/Usuario/ListarUsuarios';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-function TabNavigator() {
+function Tabs() {
   return (
-    <Tab.Navigator initialRouteName="Home"
-      screenOptions={{
-        tabBarStyle: {
-          height: 80,
-          paddingBottom: 10,
-          paddingTop: 10,
-        }, headerShown: false,
-      }}>
-      <Tab.Screen
-        name="Home"
-        component={Home}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <Icon name="home" color={color} size={size || 24} />
+    <Tab.Navigator initialRouteName="Home" 
+    screenOptions={{
+      tabBarStyle:{
+        height:80,
+        paddingBottom:10,
+        paddingTop:10
+      },headerShadow: false,
+    }}>
+      <Tab.Screen name="Home" component={Home} 
+      options={{ 
+          tabBarIcon:({color, size})=>(
+            <Icon name='home' color={color} size={size || 24} />
           ),
-        }}
-      />
-      <Tab.Screen
-        name="Produto"
-        component={CadastroProduto}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <Icon name="add-shopping-cart" color={color} size={size || 24} />
+        headerShown: false }} />
+        
+      <Tab.Screen name="Produtos" component={ListarProdutos} 
+      options={
+        { 
+          tabBarIcon:({color, size})=>(
+            <Icon name='list-outline' color={color} size={size || 24} />
           ),
-        }}
-      />
-      <Tab.Screen
-        name="Usuario"
-        component={ListarUsuario}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <Icon name="person-add" color={color} size={size || 24} />
+        headerShown: false }
+        } />
+      <Tab.Screen name="Usuários" component={ListarUsuarios} 
+      options={
+        { 
+          tabBarIcon:({color, size})=>(
+            <Icon name='people-outline' color={color} size={size || 24} />
           ),
-        }}
-      />
-      <Tab.Screen
-        name="Relatório"
-        component={DashboardProduto}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <Icon name="bar-chart" color={color} size={size || 24} />
+        headerShown: false }
+        }/>
+      <Tab.Screen name="Relatório" component={Relatorio} 
+      options={
+        { 
+          tabBarIcon:({color, size})=>(
+            <Icon name='newspaper-outline' color={color} size={size || 24} />
           ),
-        }}
-      />
+        headerShown: false }
+        } />
     </Tab.Navigator>
   );
 }
@@ -76,12 +69,16 @@ function TabNavigator() {
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Home" component={TabNavigator} options={{ headerShown: false }} />
-        <Stack.Screen name="EditarProduto" component={EditarProduto}  options={{ headerShown: false }} />
-        <Stack.Screen name="ListarUsuario" component={ListarUsuario}  options={{ headerShown: false }} />
-        <Stack.Screen name="EditarUsuario" component={EditarUsuario}  options={{ headerShown: false }} />
+      <Stack.Navigator initialRouteName='Login' options={{ headerShown: false }}>
+        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+        <Stack.Screen name="Main" component={Tabs} options={{ headerShown: false }} />
+        <Stack.Screen name="Editar" component={Editar} options={{ headerShown: false }} />
+        <Stack.Screen name="Cadastro" component={Cadastro} options={{ headerShown: false }} />
+
+        <Stack.Screen name="CadastroUsuario" component={CadastroUsuario} options={{ headerShown: false }} />
+        <Stack.Screen name="EditarUsuario" component={EditarUsuario} options={{ headerShown: false }} />
+        <Stack.Screen name="ListarUsuarios" component={ListarUsuarios} options={{ headerShown: false }} />
+        <Stack.Screen name="ListarProdutos" component={ListarProdutos} options={{ headerShown: false }} />    
       </Stack.Navigator>
     </NavigationContainer>
   );
