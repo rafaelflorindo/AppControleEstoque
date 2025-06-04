@@ -15,6 +15,7 @@ import ListarProdutos from './Components/Produto/ListarProdutos';
 import CadastroUsuario from './Components/Usuario/CadastroUsuario';
 import EditarUsuario from './Components/Usuario/EditarUsuario'
 import Login from './Components/Usuario/Login';
+import Sair from './Sair';
 
 import ListarUsuarios from './Components/Usuario/ListarUsuarios';
 
@@ -42,7 +43,15 @@ function Tabs() {
       options={
         { 
           tabBarIcon:({color, size})=>(
-            <Icon name='list-outline' color={color} size={size || 24} />
+            <Icon name='fast-food-outline' color={color} size={size || 24} />
+          ),
+        headerShown: false }
+        } />
+        <Tab.Screen name="Estoque" component={ListarProdutos} 
+      options={
+        { 
+          tabBarIcon:({color, size})=>(
+            <Icon name='albums-outline' color={color} size={size || 24} />
           ),
         headerShown: false }
         } />
@@ -51,6 +60,22 @@ function Tabs() {
         { 
           tabBarIcon:({color, size})=>(
             <Icon name='people-outline' color={color} size={size || 24} />
+          ),
+        headerShown: false }
+        }/>
+        <Tab.Screen name="Perfil" component={ListarUsuarios} 
+      options={
+        { 
+          tabBarIcon:({color, size})=>(
+            <Icon name='person-outline' color={color} size={size || 24} />
+          ),
+        headerShown: false }
+        }/>
+        <Tab.Screen name="Sair" component={Sair} 
+      options={
+        { 
+          tabBarIcon:({color, size})=>(
+            <Icon name='person-outline' color={color} size={size || 24} />
           ),
         headerShown: false }
         }/>
@@ -79,6 +104,7 @@ export default function App() {
         <Stack.Screen name="EditarUsuario" component={EditarUsuario} options={{ headerShown: false }} />
         <Stack.Screen name="ListarUsuarios" component={ListarUsuarios} options={{ headerShown: false }} />
         <Stack.Screen name="ListarProdutos" component={ListarProdutos} options={{ headerShown: false }} />    
+        <Stack.Screen name="Sair" component={Sair} options={{ headerShown: false }} />    
       </Stack.Navigator>
     </NavigationContainer>
   );

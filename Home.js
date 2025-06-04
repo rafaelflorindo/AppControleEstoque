@@ -1,78 +1,33 @@
-import { React, useState, useEffect } from 'react';
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, Alert } from 'react-native';
-import { useRoute } from '@react-navigation/native';
-import api from './api';
+//import { React, useState, useEffect } from 'react';
+import { StyleSheet, Text, View, /*FlatList, TouchableOpacity, Alert*/ } from 'react-native';
+//import { useRoute } from '@react-navigation/native';
+//import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function Home({route, navigation}) {
-    const [produtos, setProdutos] = useState([]);
+//import api from './api';
 
-    const usuario = route.params.usuario;
-    const teste = route.params.teste;
-    
-    console.log("Rotas = ", usuario, teste)
-    
-    const fetchProdutos = async () => {
-    
-      const jsonValue = await AsyncStorage.getItem('my-key');
-      console.log(JSON.parse(jsonValue));
+export default function Home({ /*route, navigation*/ }) {
+  /*const [produtos, setProdutos] = useState([]);
 
+  const usuario = route.params.usuario;
+  const teste = route.params.teste;
+
+  console.log("Rotas = ", usuario, teste)
+
+  const fetchProdutos = async () => {
+    const jsonValue = await AsyncStorage.getItem('usuario');
+    console.log(JSON.parse(jsonValue));
     return jsonValue != null ? JSON.parse(jsonValue) : null;
+
     try {
       const response = await api.get('/produtos');
       setProdutos(response.data);
     } catch (error) {
       console.error('Erro ao buscar os produtos:', error);
     }
-  };
-
-  const Delete = async (id)=>{
-    try {
-      await api.delete(`/produtos/${id}`);
-      Alert.alert("Sucesso", "Produto excluido com sucesso!");
-    } catch (error) {
-      console.error('Erro ao buscar os produtos:', error);
-      Alert.alert("Erro", "Erro ao excluir o produto!!!");
-    }
-
-  };
-
-  useEffect(() => {
-    fetchProdutos();
-  }, [produtos]);
-
+  };*/
   return (
     <View style={styles.container}>
-
-      <Text style={styles.title}>App Controle de Estoque</Text>
- 
-      <TouchableOpacity style={styles.button} onPress={()=>navigation.navigate('Cadastro')}>
-        <Text style={styles.buttonText}>Cadastrar</Text>
-      </TouchableOpacity>
-
-      <FlatList
-        style={styles.containerFlatlist}
-        data={produtos}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <View style={styles.productItem}>
-            <Text style={styles.productText}>Nome: {item.nome}</Text>
-            <Text style={styles.productText}>Quantidade: {item.quantidade}</Text>
-            <Text style={styles.productText}>Preço: R${item.preco.toFixed(2)}</Text>
-          
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity style={styles.editButton} 
-              onPress={()=>navigation.navigate('Editar',{id:item.id})}>
-                <Text style={styles.buttonText}>Editar</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity style={styles.deleteButton} 
-              onPress={()=>Delete(item.id)}>
-                <Text style={styles.buttonText}>Excluir</Text>
-              </TouchableOpacity>
-            </View>          
-          </View>
-        )}
-      />
+      <Text style={styles.title}>App - Controle de Estoque</Text>
     </View>
   );
 }

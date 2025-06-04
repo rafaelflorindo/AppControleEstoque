@@ -1,33 +1,32 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from "react-native";
 
-import api from "../../api"; // Arquivo com a configuração do Axios
+import api from "../../Services/api"
 import ListarProdutos from "./ListarProdutos";
 
 const CadastroScreen = ({navigation}) => {
   const [nome, setNome] = useState("");
-  const [preco, setPreco] = useState("");
-  const [quantidade, setQuantidade] = useState("");
+  const [descricao, setDescricao] = useState("");
+  const [quantidadeMinima, setQuantidadeMinima] = useState("");
   
   const handleSubmit = async () => {
-    if (!nome || !preco || !quantidade) {
+    if (!nome || !descricao || !quantidadeMinima) {
       Alert.alert("Erro", "Preencha todos os campos!");
       return;
     }
     try {
       const response = await api.post("/produtos", {
         nome,
-        preco: parseFloat(preco), // Convertendo para número
-        quantidade: parseInt(quantidade, 10), // Convertendo para número inteiro
+        descricao, // Convertendo para número
+        quantidadeMinima: parseInt(quantidadeMinima), // Convertendo para número inteiro
       });
       Alert.alert("Sucesso", "Produto cadastrado com sucesso!");
       console.log("Produto cadastrado com sucesso!");
       setNome("");
-      setPreco("");
-      setQuantidade("");
+      setDescricao("");
+      setQuantidadeMinima("");
      
       navigation.navigate('ListarProdutos');
-     
 
     } catch (error) {
       console.error("Erro ao cadastrar:", error);
@@ -44,20 +43,20 @@ const CadastroScreen = ({navigation}) => {
         onChangeText={setNome}
         placeholder="Digite o nome"
       />
-      <Text style={styles.label}>Preço:</Text>
+      <Text style={styles.label}>Descrição:</Text>
       <TextInput
         style={styles.input}
-        value={preco}
-        onChangeText={setPreco}
-        placeholder="Digite o preço"
-        keyboardType="numeric"
+        value={descricao}
+        onChangeText={setDescricao}
+        placeholder="Digite a descrição"
+      
       />
-      <Text style={styles.label}>Quantidade:</Text>
+      <Text style={styles.label}>Quantidade Minima:</Text>
       <TextInput
         style={styles.input}
-        value={quantidade}
-        onChangeText={setQuantidade}
-        placeholder="Digite a quantidade"
+        value={quantidadeMinima}
+        onChangeText={setQuantidadeMinima}
+        placeholder="Digite a quantidadeMinima"
         keyboardType="numeric"
       />
       <TouchableOpacity style={styles.button} onPress={handleSubmit}>

@@ -1,41 +1,57 @@
 import { React, useState, useEffect } from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Alert } from 'react-native';
-import api from '../../api';
+import api from '../../Services/api'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function ListarUsuarios({navigation}) {
   const [usuarios, setUsuarios] = useState([]);
+  const [permissao, setPermissao] = useState(null);
 
   const fetchUsuarios = async () => {
     try {
-      const response = await api.get('/usuarios');
-      setUsuarios(response.data);
+      const resposta = await api.get('/usuarios'); // retorna lista
+      setUsuarios(resposta.data);
     } catch (error) {
       console.error('Erro ao buscar os usuarios:', error);
     }
   };
 
-  const Delete = async (id)=>{
+  const buscarPermissaoUsuarioLogado = async () => {
+    try {
+      const usuarioLogado = await AsyncStorage.getItem('usuario'); // ou token
+      if (usuarioLogado) {
+        const usuario = JSON.parse(usuarioLogado);
+        setPermissao(usuario.data.permissao); 
+      }
+    } catch (error) {
+      console.error("Erro ao buscar permissão:", error);
+    }
+  };
+
+  const Delete = async (id) => {
     try {
       await api.delete(`/usuarios/${id}`);
-      Alert.alert("Sucesso", "Usuário excluido com sucesso!");
+      Alert.alert("Sucesso", "Usuário excluído com sucesso!");
+      fetchUsuarios(); // atualizar a lista
     } catch (error) {
-      console.error('Erro ao buscar os usuarios:', error);
+      console.error('Erro ao excluir usuário:', error);
       Alert.alert("Erro", "Erro ao excluir o usuário!!!");
     }
-
   };
 
   useEffect(() => {
     fetchUsuarios();
-  }, [usuarios]);
+    buscarPermissaoUsuarioLogado();
+  }, []);
 
   return (
     <View style={styles.container}>
-
       <Text style={styles.title}>Usuários Cadastrados</Text>
-      
-      <TouchableOpacity style={styles.button} onPress={()=>navigation.navigate('CadastroUsuario')}>
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('CadastroUsuario')}
+      >
         <Text style={styles.buttonText}>Cadastrar</Text>
       </TouchableOpacity>
 
@@ -48,24 +64,31 @@ export default function ListarUsuarios({navigation}) {
             <Text style={styles.productText}>Nome: {item.nome}</Text>
             <Text style={styles.productText}>Telefone: {item.telefone}</Text>
             <Text style={styles.productText}>E-mail: {item.email}</Text>
-          
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity style={styles.editButton} 
-              onPress={()=>navigation.navigate('EditarUsuario',{id:item.id})}>
-                <Text style={styles.buttonText}>Editar</Text>
-              </TouchableOpacity>
 
-              <TouchableOpacity style={styles.deleteButton} 
-              onPress={()=>Delete(item.id)}>
-                <Text style={styles.buttonText}>Excluir</Text>
-              </TouchableOpacity>
-            </View>          
+            {permissao === 'adm' && (
+              <View style={styles.buttonContainer}>
+                <TouchableOpacity
+                  style={styles.editButton}
+                  onPress={() => navigation.navigate('EditarUsuario', { id: item.id })}
+                >
+                  <Text style={styles.buttonText}>Editar</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={styles.deleteButton}
+                  onPress={() => Delete(item.id)}
+                >
+                  <Text style={styles.buttonText}>Excluir</Text>
+                </TouchableOpacity>
+              </View>
+            )}
           </View>
         )}
       />
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Alert } from "react-native";
-import api from '../../api'
+import api from '../../Services/api'
+
 import ListarUsuarios from "./ListarUsuarios";
 
 const EditarUsuario = ({ route, navigation }) => {

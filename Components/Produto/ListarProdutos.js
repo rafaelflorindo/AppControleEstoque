@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Alert } from 'react-native';
-import api from '../../api';
+import api from '../../Services/api'
 
 export default function ListarProdutos({navigation}) {
   const [produtos, setProdutos] = useState([]);
@@ -45,8 +45,8 @@ export default function ListarProdutos({navigation}) {
         renderItem={({ item }) => (
           <View style={styles.productItem}>
             <Text style={styles.productText}>Nome: {item.nome}</Text>
-            <Text style={styles.productText}>Quantidade: {item.quantidade}</Text>
-            <Text style={styles.productText}>Preço: R${item.preco.toFixed(2)}</Text>
+            <Text style={styles.productText}>Quantidade: {item.quantidadeMinima}</Text>
+            <Text style={styles.productText}>Descricao: R${item.descricao}</Text>
           
             <View style={styles.buttonContainer}>
               <TouchableOpacity style={styles.editButton} 

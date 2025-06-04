@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Alert } from "react-native";
-import api from '../../api'
+import api from '../../Services/api'
 
 const Editar = ({ route, navigation }) => {
   const { id } = route.params;
 
   const [nome, setNome] = useState();
-  const [quantidade, setQuantidade] = useState();
-  const [preco, setPreco] = useState();
+  const [quantidadeMinima, setQuantidadeMinima] = useState();
+  const [descricao, setDescricao] = useState();
 
   const fetchProdutos = async () => {
     try {
@@ -15,8 +15,8 @@ const Editar = ({ route, navigation }) => {
       const produto = response.data;
 
       setNome(produto.nome);
-      setQuantidade(produto.quantidade.toString());
-      setPreco(produto.preco.toString());
+      setQuantidadeMinima(produto.quantidadeMinima.toString());
+      setDescricao(produto.descricao);
     } catch (error) {
       console.error('Erro ao buscar os produtos:', error);
     }
@@ -25,15 +25,15 @@ const Editar = ({ route, navigation }) => {
     fetchProdutos();
   }, []);
   const handleSubmit = async () => {
-    if (!nome || !preco || !quantidade) {
+    if (!nome || !descricao || !quantidadeMinima) {
       Alert.alert("Erro", "Preencha todos os campos!");
       return;
     }
     try {
       const response = await api.put(`/produtos/${id}`, {
         nome,
-        preco: parseFloat(preco), // Convertendo para número
-        quantidade: parseInt(quantidade, 10), // Convertendo para número inteiro
+        descricao,
+        quantidadeMinima: parseInt(quantidadeMinima), // Convertendo para número inteiro
       });
       Alert.alert("Sucesso", "Produto Alterado com sucesso!");
       navigation.goBack();
@@ -52,20 +52,19 @@ const Editar = ({ route, navigation }) => {
         onChangeText={setNome}
         placeholder="Digite o nome"
       />
-      <Text style={styles.label}>Preço:</Text>
+      <Text style={styles.label}>Descrição:</Text>
       <TextInput
         style={styles.input}
-        value={preco}
-        onChangeText={setPreco}
-        placeholder="Digite o preço"
-        keyboardType="numeric"
+        value={descricao}
+        onChangeText={setDescricao}
+        placeholder="Digite uma decrição"
       />
-      <Text style={styles.label}>Quantidade:</Text>
+      <Text style={styles.label}>quantidadeMinima:</Text>
       <TextInput
         style={styles.input}
-        value={quantidade}
-        onChangeText={setQuantidade}
-        placeholder="Digite a quantidade"
+        value={quantidadeMinima}
+        onChangeText={setQuantidadeMinima}
+        placeholder="Digite a quantidadeMinima"
         keyboardType="numeric"
       />
       <TouchableOpacity style={styles.button} onPress={handleSubmit}>
@@ -93,72 +92,40 @@ const styles = StyleSheet.create({
   },
 
   title: {
-
     fontSize: 24,
-
     fontWeight: "bold",
-
     marginBottom: 25,
-
     color: "#222",
-
     textAlign: "center",
-
   },
-
   label: {
-
     fontSize: 16,
-
     fontWeight: "600",
-
     marginBottom: 6,
-
     color: "#444",
-
   },
-
   input: {
-
     height: 45,
-
     borderWidth: 1,
-
     borderColor: "#ccc",
-
     borderRadius: 6,
-
     marginBottom: 18,
-
     paddingHorizontal: 12,
-
     backgroundColor: "#fff",
-
   },
-
   button: {
-
     backgroundColor: "#0056b3", // azul mais escuro 
-
     paddingVertical: 14,
-
     borderRadius: 6,
-
     alignItems: "center",
-
     marginTop: 10,
-
   },
-
   buttonText: {
-
     color: "#fff",
-
     fontSize: 16,
-
     fontWeight: "bold",
-
-  }, buttonCancel: {
+  }, 
+  buttonCancel: {
     backgroundColor: '#ccc',
     padding: 10,
     borderRadius: 5,

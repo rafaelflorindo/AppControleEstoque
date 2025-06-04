@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import api from "../../api"; // Arquivo com a configuração do Axios
+import api from '../../Services/api'
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState("rafaelflorindo@hotmail.com");

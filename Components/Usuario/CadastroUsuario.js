@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from "react-native";
 
-import api from "../../api"; // Arquivo com a configuração do Axios
+import api from '../../Services/api'
 
 const CadastroUsuario = ({navigation}) => {
   const [nome, setNome] = useState("");
